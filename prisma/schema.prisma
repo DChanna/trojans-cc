@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          String    @default("admin")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Season {
+  id        String   @id @default(cuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  matches   Match[]
+  availability Availability[]
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String
+  shortName   String
+  createdAt   DateTime @default(now())
+  homeMatches Match[]  @relation("HomeTeam")
+  awayMatches Match[]  @relation("AwayTeam")
+  players     PlayerTeam[]
+}
+
+model Player {
+  id              String   @id @default(cuid())
+  playerId        String   @unique // P01, P02, etc.
+  fullName        String
+  email           String?
+  phone           String?
+  usaCricketId    String?
+  role            String?  // Batsman, Bowler, All-rounder, Wicketkeeper
+  battingStyle    String?
+  bowlingStyle    String?
+  paymentPlan     String   @default("Season Dues")
+  duesPaid        String   @default("Unpaid")
+  outstandingAmount Float  @default(0)
+  umpireAssignments Int    @default(0)
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  teams           PlayerTeam[]
+  availability    Availability[]
+  gameNotes       GameNote[]
+}
+
+model PlayerTeam {
+  id        String @id @default(cuid())
+  playerId  String
+  teamId    String
+  isPrimary Boolean @default(true)
+  player    Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  team      Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  @@unique([playerId, teamId])
+}
+
+model Match {
+  id          String   @id @default(cuid())
+  seasonId    String
+  homeTeamId  String
+  awayTeamId  String
+  date        DateTime
+  time        String?
+  format      String?  // T20, ODI, etc.
+  ground      String?
+  result      String?  // Win, Loss, Draw, Abandoned
+  homeScore   String?
+  awayScore   String?
+  gameNumber  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  season      Season   @relation(fields: [seasonId], references: [id])
+  homeTeam    Team     @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeam    Team     @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  availability Availability[]
+  gameNotes   GameNote[]
+}
+
+model Availability {
+  id        String @id @default(cuid())
+  playerId  String
+  matchId   String
+  seasonId  String
+  status    String // not_available, selected_paid, selected_unpaid, not_selected, withdrew
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  player    Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  match     Match   @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  season    Season  @relation(fields: [seasonId], references: [id])
+  @@unique([playerId, matchId])
+}
+
+model GameNote {
+  id        String @id @default(cuid())
+  playerId  String
+  matchId   String
+  note      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  player    Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  match     Match   @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  @@unique([playerId, matchId])
+}
+
+model MoneyRecord {
+  id          String   @id @default(cuid())
+  description String
+  amount      Float
+  owedBy      String?
+  paidBy      String?
+  status      String   @default("Unpaid") // Paid, Unpaid, Partial, TBD, N/A
+  datePaid    DateTime?
+  hasReceipt  Boolean  @default(false)
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Form {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  fields      String   // JSON string of form fields
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  responses   FormResponse[]
+}
+
+model FormResponse {
+  id        String   @id @default(cuid())
+  formId    String
+  data      String   // JSON string of response data
+  submittedBy String?
+  createdAt DateTime @default(now())
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
