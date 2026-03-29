@@ -13,16 +13,16 @@ export default function ContactPage() {
           Get in <Box component="span" sx={{ color: 'primary.main' }}>Touch</Box>
         </Typography>
         <Grid container spacing={6}>
-          <Grid item xs={12} md={7}>
+          <Grid>
             <Card>
               <CardContent sx={{ p: 4 }}>
                 <Typography variant="h6" sx={{ mb: 3 }}>Send us a message</Typography>
                 <Stack spacing={3}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid>
                       <TextField fullWidth label="First Name" variant="outlined" />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid>
                       <TextField fullWidth label="Last Name" variant="outlined" />
                     </Grid>
                   </Grid>
@@ -36,7 +36,7 @@ export default function ContactPage() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={5}>
+          <Grid>
             <Stack spacing={3}>
               {[
                 { icon: <InstagramIcon />, title: 'Instagram', value: '@trojan_bats', href: 'https://www.instagram.com/trojan_bats/' },

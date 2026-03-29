@@ -8,7 +8,7 @@ export default function Footer() {
     <Box component="footer" sx={{ py: 6, mt: 'auto', borderTop: '1px solid', borderColor: 'divider' }}>
       <Container maxWidth="lg">
         <Grid container spacing={4} alignItems="center">
-          <Grid item xs={12} md={4}>
+          <Grid>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
               <SportsCricketIcon sx={{ color: 'primary.main' }} />
               <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main', letterSpacing: '0.05em' }}>

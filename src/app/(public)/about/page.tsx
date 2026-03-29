@@ -10,7 +10,7 @@ export default function AboutPage() {
           The <Box component="span" sx={{ color: 'primary.main' }}>Trojan</Box> Story
         </Typography>
         <Grid container spacing={6}>
-          <Grid item xs={12} md={7}>
+          <Grid>
             <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 3 }}>
               Trojan Cricket Club was founded with a simple mission: bring together passionate cricketers in the Bay Area and compete at the highest level. What started as a group of friends has grown into a 32-player operation fielding two competitive teams in the Bay Area Cricket Association (BACA).
             </Typography>
@@ -21,7 +21,7 @@ export default function AboutPage() {
               Beyond the pitch, we&apos;re building a brand. Trojan Bats represents our vision for cricket culture — premium gear, strong identity, and a community that plays the game the right way.
             </Typography>
           </Grid>
-          <Grid item xs={12} md={5}>
+          <Grid>
             <Card sx={{ background: 'linear-gradient(135deg, rgba(139, 26, 26, 0.1) 0%, rgba(201, 168, 76, 0.05) 100%)' }}>
               <CardContent sx={{ p: 4 }}>
                 <Typography variant="h6" sx={{ color: 'primary.main', mb: 3 }}>Quick Facts</Typography>

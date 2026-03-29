@@ -62,7 +62,7 @@ export default function DashboardPage() {
 
       <Grid container spacing={3}>
         {/* Team Performance */}
-        <Grid item xs={12} md={8}>
+        <Grid>
           <Card>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3 }}>Team Performance</Typography>
@@ -99,7 +99,7 @@ export default function DashboardPage() {
         </Grid>
 
         {/* Recent Activity */}
-        <Grid item xs={12} md={4}>
+        <Grid>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3 }}>Recent Activity</Typography>

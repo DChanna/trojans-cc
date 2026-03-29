@@ -24,7 +24,7 @@ export default function HomePage() {
 
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={7}>
+            <Grid>
               <Box sx={{ mb: 3 }}>
                 <Typography variant="overline" sx={{ color: 'primary.main', letterSpacing: '0.2em', fontSize: '0.85rem', fontWeight: 600 }}>
                   Bay Area Cricket Association
