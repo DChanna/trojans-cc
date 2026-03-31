@@ -35,6 +35,7 @@ model Team {
   homeMatches Match[]  @relation("HomeTeam")
   awayMatches Match[]  @relation("AwayTeam")
   players     PlayerTeam[]
+  polls       Poll[]
 }
 
 model Player {
@@ -57,6 +58,7 @@ model Player {
   teams           PlayerTeam[]
   availability    Availability[]
   gameNotes       GameNote[]
+  pollResponses   PollResponse[]
 }
 
 model PlayerTeam {
@@ -149,4 +151,32 @@ model FormResponse {
   submittedBy String?
   createdAt DateTime @default(now())
   form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Poll {
+  id          String   @id @default(cuid())
+  token       String   @unique @default(cuid()) // public-facing URL token
+  title       String
+  description String?
+  teamId      String
+  matchLabel  String?  // e.g. "Game 5 vs Bay XI - Apr 12"
+  deadline    DateTime?
+  isOpen      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  team        Team     @relation(fields: [teamId], references: [id])
+  responses   PollResponse[]
+}
+
+model PollResponse {
+  id        String   @id @default(cuid())
+  pollId    String
+  playerId  String
+  status    String   // available, not_available, maybe
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  poll      Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  @@unique([pollId, playerId])
 }
